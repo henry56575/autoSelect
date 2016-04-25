@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>autoSelect Demo</title>
+	<link rel="stylesheet" type="text/css" href="css/basic.css">
+	<link rel="stylesheet" type="text/css" href="css/imgareaselect-default.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<style>
+		.content{
+			position:relative;
+			width:100%;
+		}
+		#preview, #canvas{
+			left:50%;
+			margin-left:-300px;
+			position: absolute;
+			
+		}
+	</style>
+</head>
+<body>
+	<ul class="nav nav-tabs">
+	    <li><a href="index.html">视频选框</a></li>
+	 	<li class="active"><a href="#">效果预览</a></li>
+	</ul>
+	<div id="container">
+		<div id="header">
+			<h3>Preview</h3>
+		</div>
+		<div id="main">
+			
+				<h4>视频播放区</h4> 
+					
+					<div id="uploads">
+						<video id="video" src="dota2.mp4" width="400" height="200"  controls>
+						</video>
+
+					</div>
+
+					<div class="content">
+						<h4>视频效果预览区</h4>
+						
+						<canvas id="canvas" width="600" height="300" ></canvas>
+						<canvas id="preview" width="600" height="300"></canvas>
+
+					</div>
+				
+		</div>	
+	</div>
+	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.imgareaselect.min.js"></script>
+	<script type="text/javascript" src="js/preview_information.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$.ajax({
+				type:"GET", 
+				url:"test.php",
+				dataType:"json",
+				success:function(data){
+					
+					
+					$("#video").on('timeupdate',function(){
+					
+					for(var i=0;i<=data.video.length;i+=20){
+				      
+				      if(parseInt($("video")[0].currentTime)==(data.video[i].nFrm)/20){
+				      		ctx1.clearRect(0,0,600,300);
+				      		ctx1.strokeStyle="red";
+				      		ctx1.strokeRect(6*(data.video[i].LTX),3*(data.video[i].LTY),6*(data.video[i].Width),3*(data.video[i].height));
+				      }
+				      else if(parseInt($("video")[0].currentTime)<(data.video[0].nFrm)/20){
+				      	    ctx1.clearRect(0,0,600,300);
+				      }else if(parseInt($("video")[0].currentTime)>(data.video[data.video.length-1].nFrm)/20)
+				      		ctx1.clearRect(0,0,600,300);
+				     }
+					})
+				},
+				error:function(jqXHR){
+					alert("发生错误"+jqXHR.status);
+				}
+			});
+
+		});
+	 </script>
+	
+</body>
+</html>
