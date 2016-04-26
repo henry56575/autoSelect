@@ -18,25 +18,20 @@ $("#video").on('canplay',function(){
 });
 
 $("#video").on('pause',function(){
-	$("#btn1").click(function(){
-		
+	$('#video')[0].currentTime=Math.floor($('#video')[0].currentTime);
+
+	$("#btn1").click(function(){		
 		$("#startTime").val(function(){
 			   return Math.floor($('#video')[0].currentTime);
 			}  
 		);
-
-		$('#video')[0].currentTime=$("#startTime").val();
 	});
 
 	$("#btn2").click(function(){
-
 		$("#endTime").val(function(){
 			   return Math.floor($('#video')[0].currentTime);
 			} 
 		);
-
-		$('#video')[0].currentTime=$("#endTime").val();
-		
 	});
 	
 });
